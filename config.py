@@ -9,7 +9,7 @@ class Config:
     """Base configuration class for the Sakila Flask application.
     Handles database connection strings and system timeouts.
     """
-    MYSQL_HOST = os.environ.get('MYSQL_HOST', 'sakila-db-server')
+   MYSQL_HOST = os.environ.get('MYSQL_HOST', 'db-primary')
     MYSQL_USER = os.environ.get('MYSQL_USER', 'root')
     MYSQL_PASSWORD = os.environ.get('MYSQL_PASSWORD', 'admin')
     MYSQL_DB = os.environ.get('MYSQL_DB', 'sakila')
@@ -25,6 +25,10 @@ class Config:
 # Author: Team Member = Aliyah Cheema
 # Date: 2026-04-23
 # Purpose: Health check configuration merged from feature/add-healthcheck
+
+# Author: Team Member = Muhammad Areeb
+# Date: April 25, 2026
+# Purpose: update database host and add health check interval
 
 
 import os
