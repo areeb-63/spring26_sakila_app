@@ -26,6 +26,11 @@ class Config:
 # Date: 2026-04-23
 # Purpose: Health check configuration merged from feature/add-healthcheck
 
+# Author: Muhammad Areeb
+# Date: April 25, 2026
+# Purpose: update database host and add timeout setting
+
+
 
 import os
 
