@@ -1,8 +1,6 @@
-# Name: Abdul Raffay Qasim
-# Name: Team Member
-# Date: 2026-04-23
-# Minor improvement after PR review
-# Added after review feedback
+# Author: Muhammad Areeb
+# Date: April 25, 2026
+# Purpose: update database host and add timeout setting
 import os
 
 class Config:
@@ -18,17 +16,9 @@ class Config:
     HEALTH_CHECK_INTERVAL = int(os.environ.get('HEALTH_CHECK_INTERVAL', '10'))
 
     SECRET_KEY = os.environ.get('SECRET_KEY', 'your-secret-key-here-change-this-in-production')
-#Author:Urwah Taj
-#Date: 2026-04-23
-# Purpose: Database configuration for Sakila Flask Application
 
-# Author: Team Member = Aliyah Cheema
-# Date: 2026-04-23
-# Purpose: Health check configuration merged from feature/add-healthcheck
 
-# Author: Muhammad Areeb
-# Date: April 25, 2026
-# Purpose: update database host and add timeout setting
+
 
 
 
