@@ -1,0 +1,44 @@
+name: CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy-staging:
+    name: Deploy to Staging
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Simulate Staging Deployment
+        run: |
+          echo "🚀 Deploying to Staging Environment..."
+          echo "### Deployment Summary 📝" >> $GITHUB_STEP_SUMMARY
+          echo "- **Target Environment:** Staging" >> $GITHUB_STEP_SUMMARY
+          echo "- **Deployment Status:** Success ✅" >> $GITHUB_STEP_SUMMARY
+          echo "- **Triggered By:** ${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Commit SHA:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+
+  create-release:
+    name: Create GitHub Release
+    needs: deploy-staging
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.0.${{ github.run_number }}
+          name: Release v1.0.${{ github.run_number }}
+          body: |
+            ## Release Notes
+            Automated deployment for commit ${{ github.sha }}.
+            - Successfully passed CI checks.
+            - Deployed to Staging environment.
+          draft: false
+          prerelease: false
