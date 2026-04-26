@@ -1,0 +1,64 @@
+services:
+  db:
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    networks:
+      - sakila-network
+    volumes:
+      - sakila-db-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -p${MYSQL_ROOT_PASSWORD} || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+
+  app:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    restart: on-failure:5
+    ports:
+      - "5001:5000"
+    environment:
+      MYSQL_HOST: db
+    networks:
+      - sakila-network
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db-admin:
+    image: adminer:latest
+    ports:
+      - "8080:8080"
+    networks:
+      - sakila-network
+    depends_on:
+      - db
+
+  test-runner:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: python -m pytest tests/ -v
+    profiles:
+      - test
+    networks:
+      - sakila-network
+    depends_on:
+      db:
+        condition: service_healthy
+
+networks:
+  sakila-network:
+    driver: bridge
+
+volumes:
+  sakila-db-data:
